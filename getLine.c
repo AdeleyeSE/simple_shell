@@ -1,19 +1,19 @@
 #include "shell.h"
 
 /**
- * input_buf - buffers chained commands
- * @info: parameter struct
- * @buf: address of buffer
- * @len: address of len var
+ * input_buf - bufers chaind comands
+ * @info: paramtr struct
+ * @buf: addres of bufer
+ * @len: addres of len var
  *
- * Return: bytes read
+ * Retun: bytes read
  */
 ssize_t input_buf(info_t *info, char **buf, size_t *len)
 {
 	ssize_t r = 0;
 	size_t len_p = 0;
 
-	if (!*len) /* if nothing left in the buffer, fill it */
+	if (!*len) /* if nothing left in th bufer, fill it */
 	{
 		/*bfree((void **)info->cmd_buf);*/
 		free(*buf);
@@ -28,13 +28,13 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 		{
 			if ((*buf)[r - 1] == '\n')
 			{
-				(*buf)[r - 1] = '\0'; /* remove trailing newline */
+				(*buf)[r - 1] = '\0'; /* remov trailing newline */
 				r--;
 			}
 			info->linecount_flag = 1;
 			remove_comments(*buf);
 			build_history_list(info, *buf, info->histcount++);
-			/* if (_strchr(*buf, ';')) is this a command chain? */
+			/* if (_strchr(*buf, ';')) is this a comand chain? */
 			{
 				*len = r;
 				info->cmd_buf = buf;
@@ -46,13 +46,13 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 
 /**
  * get_input - gets a line minus the newline
- * @info: parameter struct
+ * @info: paramtr struct
  *
- * Return: bytes read
+ * Retun: bytes read
  */
 ssize_t get_input(info_t *info)
 {
-	static char *buf; /* the ';' command chain buffer */
+	static char *buf; /* th ';' comand chain bufer */
 	static size_t i, j, len;
 	ssize_t r = 0;
 	char **buf_p = &(info->arg), *p;
@@ -61,41 +61,41 @@ ssize_t get_input(info_t *info)
 	r = input_buf(info, &buf, &len);
 	if (r == -1) /* EOF */
 		return (-1);
-	if (len) /* we have commands left in the chain buffer */
+	if (len) /* we have comands left in th chain bufer */
 	{
-		j = i; /* init new iterator to current buf position */
-		p = buf + i; /* get pointer for return */
+		j = i; /* init new iterator to curent buf position */
+		p = buf + i; /* get pointr for retun */
 
 		check_chain(info, buf, &j, i, len);
-		while (j < len) /* iterate to semicolon or end */
+		while (j < len) /* iterat to semicolon or end */
 		{
 			if (is_chain(info, buf, &j))
 				break;
 			j++;
 		}
 
-		i = j + 1; /* increment past nulled ';'' */
-		if (i >= len) /* reached end of buffer? */
+		i = j + 1; /* incremnt past nulled ';'' */
+		if (i >= len) /* reachd end of bufer? */
 		{
-			i = len = 0; /* reset position and length */
+			i = len = 0; /* reset positn and length */
 			info->cmd_buf_type = CMD_NORM;
 		}
 
-		*buf_p = p; /* pass back pointer to current command position */
-		return (_strlen(p)); /* return length of current command */
+		*buf_p = p; /* pas back pointr to curent comand positn */
+		return (_strlen(p)); /* retun length of curent comand */
 	}
 
-	*buf_p = buf; /* else not a chain, pass back buffer from _getline() */
-	return (r); /* return length of buffer from _getline() */
+	*buf_p = buf; /* else not a chain, pas back bufer from _getline() */
+	return (r); /* retun length of bufer from _getline() */
 }
 
 /**
- * read_buf - reads a buffer
- * @info: parameter struct
- * @buf: buffer
+ * read_buf - reads a bufer
+ * @info: paramtr struct
+ * @buf: bufer
  * @i: size
  *
- * Return: r
+ * Retun: r
  */
 ssize_t read_buf(info_t *info, char *buf, size_t *i)
 {
@@ -110,12 +110,12 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
 }
 
 /**
- * _getline - gets the next line of input from STDIN
- * @info: parameter struct
- * @ptr: address of pointer to buffer, preallocated or NULL
- * @length: size of preallocated ptr buffer if not NULL
+ * _getline - gets th next line of input from STDIN
+ * @info: paramtr struct
+ * @ptr: addres of pointr to bufer, preallocated or NULL
+ * @length: size of preallocated ptr bufer if not NULL
  *
- * Return: s
+ * Retun: s
  */
 int _getline(info_t *info, char **ptr, size_t *length)
 {
@@ -158,9 +158,9 @@ int _getline(info_t *info, char **ptr, size_t *length)
 
 /**
  * sigintHandler - blocks ctrl-C
- * @sig_num: the signal number
+ * @sig_num: th signal numbr
  *
- * Return: void
+ * Retun: void
  */
 void sigintHandler(__attribute__((unused))int sig_num)
 {
